@@ -5,9 +5,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.keys import Keys
 from config import project_config
 from ._custom_exceptions import DriverException
+from ._enums import Browsers
 
 
 def _method_decorator(method):
@@ -48,13 +50,50 @@ class Webdriver:
 
     def start_webdriver(self, url=project_config.main_url):
         try:
-            options = webdriver.ChromeOptions()
-            options.add_argument('--start-maximized')
-            self.driver = webdriver.Chrome(chrome_options=options)
+            self.driver, capabilities = self._get_browser_data(project_config.browser)
+            if project_config.selenium_host != 'localhost':
+                self.driver = webdriver.Remote(
+                    command_executor=project_config.selenium_host,
+                    desired_capabilities=capabilities)
+
+            else:
+                self.driver = self.driver()
+
+            if project_config.fullscreen:
+                self.driver.maximize_window()
+
             self.open_url(url, add_base_url=False)
+
+        except AttributeError:
+            raise DriverException('Wrong browser name\n')
 
         except DriverException as e:
             raise DriverException(str(e) + 'Problem with initializing driver\n')
+
+    def _get_browser_data(self, browser_name):
+        if browser_name.lower() == Browsers.CHROME:
+            return webdriver.Chrome, DesiredCapabilities.CHROME
+
+        elif browser_name.lower() == Browsers.EDGE:
+            return webdriver.Edge, DesiredCapabilities.EDGE
+
+        elif browser_name.lower() == Browsers.FIREFOX:
+            return webdriver.Firefox, DesiredCapabilities.FIREFOX
+
+        elif browser_name.lower() == Browsers.INTERNETEXPLORER:
+            return webdriver.Ie, DesiredCapabilities.INTERNETEXPLORER
+
+        elif browser_name.lower() == Browsers.OPERA:
+            return webdriver.Opera, DesiredCapabilities.OPERA
+
+        elif browser_name.lower() == Browsers.PHANTOMJS:
+            return webdriver.PhantomJS, DesiredCapabilities.PHANTOMJS
+
+        elif browser_name.lower() == Browsers.SAFARI:
+            return webdriver.Safari, DesiredCapabilities.SAFARI
+
+        else:
+            raise DriverException('Browser ' + browser_name + ' not supported\n')
 
     def _wait_for_element_be_visible(self, xpath):
         try:

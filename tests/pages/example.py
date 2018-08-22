@@ -11,4 +11,3 @@ def check_url(driver, page_name):
 def open_page(driver, page_name):
     driver.open_url(page_url_data.url[page_name], add_base_url=False)
 
-

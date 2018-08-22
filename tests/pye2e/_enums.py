@@ -32,3 +32,13 @@ class Colours:
     GREEN = '\033[92m'
     CYAN = '\033[96m'
     DEFAULT = '\033[0m'
+
+
+class Browsers:
+    CHROME = 'chrome'
+    EDGE = 'edge'
+    FIREFOX = 'firefox'
+    INTERNETEXPLORER = 'internetexplorer'
+    OPERA = 'opera'
+    PHANTOMJS = 'phantomjs'
+    SAFARI = 'safari'
