@@ -53,7 +53,7 @@ class Webdriver:
             self.driver = webdriver.Chrome(chrome_options=options)
             self.open_url(url, add_base_url=False)
 
-        except DriverException as e :
+        except DriverException as e:
             raise DriverException(str(e) + 'Problem with initializing driver\n')
 
     def _wait_for_element_be_visible(self, xpath):
