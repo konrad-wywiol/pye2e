@@ -226,7 +226,7 @@ class Webdriver:
         except DriverException as e:
             raise DriverException(e)
 
-    def click_on_checkbox(self, xpath, attribute_name=None, diff_attribute_xp=None):
+    def __click_on_checkbox(self, xpath, attribute_name=None, diff_attribute_xp=None): # todo
         try:
             status = None
             attribute_xp = xpath
@@ -258,7 +258,7 @@ class Webdriver:
 
         except Exception as e:
             print(e)
-            print('Other element would receive the click')  # konwyw
+            print('Other element would receive the click')  # todo
             self._javascript_click(xpath)
             print('JS click used for element: ' + xpath)
 
@@ -291,11 +291,11 @@ class Webdriver:
         except DriverException as e:
             raise DriverException(str(e) + 'failed to open website\n')
 
-    def check_url(self, url, add_base_url=True, check_exact=False):
+    def check_url(self, url, add_base_url=True, check_exactly=False):
         try:
             if add_base_url:
                 url = project_config.main_url + url
-            if check_exact:
+            if check_exactly:
                 self._url_compare(ec.url_to_be, url)
             else:
                 self._url_compare(ec.url_contains, url)
