@@ -32,7 +32,9 @@ Here you can store data, for example user_data.py that contains users names, pas
 From this directory you can upload files using upload_file(xpath, file_name) method
 
 ### tests/feature/
-Here you create .feature files with gherkin scenarios
+Here you create .feature files with gherkin scenarios. You can add tags to scenarios and features.
+@wip - run only these
+@disabled - skip 
 
 #### example
 Feature: Feature example text
