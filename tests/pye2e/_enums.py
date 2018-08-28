@@ -22,9 +22,11 @@ class Type(Enum):
     TAG = 4
 
 
-class Status(Enum):
-    FAILED = 1
-    SUCCESS = 2
+class Status:
+    FAILED = 'Failed'
+    SUCCESS = 'Passed'
+    SKIPPED = 'Skipped'
+    PENDING = 'Pending'
 
 
 class Colours:
@@ -32,6 +34,7 @@ class Colours:
     GREEN = '\033[92m'
     CYAN = '\033[96m'
     DEFAULT = '\033[0m'
+    GREY = '\033[90m'
 
 
 class Browsers:
@@ -42,3 +45,8 @@ class Browsers:
     OPERA = 'opera'
     PHANTOMJS = 'phantomjs'
     SAFARI = 'safari'
+
+
+class Tags:
+    WIP = '@wip'
+    DISABLED = '@disabled'

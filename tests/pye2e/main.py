@@ -1,14 +1,13 @@
-from time import time
 from ._driver import Webdriver
 from ._methods import Methods
 from ._gherkin_parser import StepsQueue
-from ._custom_exceptions import print_error
-from ._enums import Colours
+from ._custom_exceptions import print_error, CustomException, DriverException
+from . import _report
+from config import project_config
 
 
 def start():
     try:
-        start = time()
         driver = Webdriver()
         driver.start_webdriver()
         methods = Methods()
@@ -17,15 +16,15 @@ def start():
         steps_queue.prepare_steps()
         steps_queue.start()
 
-    except KeyboardInterrupt as e:
-        e.args = ('Interrupted by keyboard', )
-        print_error(e)
+        if project_config.report['active']:
+            _report.save_as_text(steps_queue.features)
 
-    except Exception as e:
+    except CustomException as e:
         print_error(e)
 
     finally:
-        result = '%.2f' % (time() - start)
-        print()
-        print(Colours.GREEN + 'Finished in: ' + result + 'sec' + Colours.DEFAULT)
-        driver.resolve_webdriver()
+        try:
+            driver.resolve_webdriver()
+
+        except DriverException:
+            pass

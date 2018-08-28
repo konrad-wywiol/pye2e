@@ -1,10 +1,16 @@
 from . import _in_step
+from ._custom_exceptions import KeyErrorException
 
 
 def step(step_param):
     def _step(func):
         def decorated_func(*args, **kwargs):
-            func(*args, **kwargs)
+            try:
+                func(*args, **kwargs)
+
+            except KeyError as e:
+                raise KeyErrorException('Path not found: ' + str(e) + '\n')
+
             return func
         decorated_func.decorator = step
         decorated_func.__name__ = func.__name__

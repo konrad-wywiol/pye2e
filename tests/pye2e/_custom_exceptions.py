@@ -2,17 +2,27 @@ from config import project_config
 from ._enums import Colours
 
 
-class DriverException(Exception):
+class CustomException(Exception):
     def __init__(self, *args):
         pass
 
 
-class ParserException(Exception):
+class DriverException(CustomException):
     def __init__(self, *args):
         pass
 
 
-class MethodsException(Exception):
+class ParserException(CustomException):
+    def __init__(self, *args):
+        pass
+
+
+class MethodsException(CustomException):
+    def __init__(self, *args):
+        pass
+
+
+class KeyErrorException(CustomException):
     def __init__(self, *args):
         pass
 

@@ -50,4 +50,4 @@ class Methods:
                       not callable(getattr(Directories, attr)) and not attr.startswith('__')]
         for var in class_vars:
             path = getattr(Directories, var)
-            sys.path.append(path)
+            sys.path.append(path) # todo sys.path.insert(1, path)

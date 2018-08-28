@@ -19,6 +19,7 @@ def _method_decorator(method):
 
         except DriverException as e:
             raise DriverException(e)
+
     return method_wrapper
 
 
@@ -66,6 +67,9 @@ class Webdriver:
 
         except AttributeError:
             raise DriverException('Wrong browser name\n')
+
+        except KeyboardInterrupt as e:
+            raise DriverException(str(e) + 'Interrupted by keyboard')
 
         except DriverException as e:
             raise DriverException(str(e) + 'Problem with initializing driver\n')
@@ -354,8 +358,8 @@ class Webdriver:
         except DriverException as e:
             raise DriverException(str(e) + 'resolve webdriver failed\n')
 
-        except AttributeError:
-            pass
+        except TypeError as e:
+            raise DriverException(str(e) + 'QUIT\n')
 
     def refresh_webdriver(self):
         try:
