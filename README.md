@@ -40,7 +40,7 @@ Feature: Feature example text
         Given user is on "homepage" page
 
 ### tests/pages/
-This is the place where you create your .py files. Then write functions, decorate it with @step and add gherkin step into decorator parameter. All defined functions must have a unique name. First argument is driver, you can check methods list below.
+This is the place where you create your .py files. Write functions, decorate them with @step and add gherkin step into decorator parameter. All defined functions must have a unique name. First argument is driver, you can check list of driver methods below.
 
 #### example
 
