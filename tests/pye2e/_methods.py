@@ -30,8 +30,12 @@ class Methods:
 
     def _import_all_steps_files(self):
         steps_files = []
-        if not os.listdir(Directories.PAGES):
-            raise MethodsException('pages directory is empty')
+        try:
+            if not os.listdir(Directories.PAGES):
+                raise MethodsException('pages directory is empty')
+
+        except FileNotFoundError:
+            raise MethodsException('pages directory not found')
 
         for step_file in os.listdir(Directories.PAGES):
             if step_file == '__init__.py' or step_file[-3:] != '.py':

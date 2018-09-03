@@ -9,7 +9,7 @@ def step(step_param):
                 func(*args, **kwargs)
 
             except KeyError as e:
-                raise KeyErrorException('Path not found: ' + str(e) + '\n')
+                raise KeyErrorException('Key not found: ' + str(e) + '\n')
 
             return func
         decorated_func.decorator = step

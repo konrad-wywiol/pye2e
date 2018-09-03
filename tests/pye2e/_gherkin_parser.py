@@ -125,8 +125,12 @@ class StepsQueue:
         self.log = '\n'.join((self.log, text))
 
     def _load_features_files(self):
-        if not os.listdir(Directories.FEATURES):
-            raise ParserException('features directory is empty')
+        try:
+            if not os.listdir(Directories.FEATURES):
+                raise ParserException('features directory is empty')
+
+        except FileNotFoundError:
+            raise ParserException('features directory not found')
 
         for feature_file in os.listdir(Directories.FEATURES):
             self._open_feature_file(Directories.FEATURES + feature_file)

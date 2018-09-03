@@ -1,5 +1,5 @@
 Feature: Feature example text
-    @disabled
+
     Scenario Outline: Scenario example text
         Given user is on "homepage" page
         Then user goes to "<pages>" page
