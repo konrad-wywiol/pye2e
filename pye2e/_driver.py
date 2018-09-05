@@ -344,11 +344,10 @@ class Webdriver:
         except DriverException as e:
             raise DriverException(str(e) + 'closing new window failed\n')
 
-    def upload_file(self, xpath, file):
+    def upload_file(self, xpath, file_path):
         try:
             element = self._wait_for_element_be_visible(xpath)
-            path = os.getcwd() + '/tests/data/files/' + file
-            element.send_keys(path)
+            element.send_keys(file_path)
 
         except DriverException as e:
             raise DriverException(str(e) + 'uploading file failed\n')
