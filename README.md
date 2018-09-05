@@ -22,7 +22,7 @@ if __name__ == '__main__':
 ```
 
 ## Example
-https://github.com/konrad-wywiol/pye2e_example
+https://github.com/konrad-wywiol/pye2e_example/tree/develop
 
 ## File structure
 project/project_config.py  
