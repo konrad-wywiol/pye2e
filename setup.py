@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pye2e",
-    version="0.0.4",
+    version="0.0.5",
     author="Konrad",
     description="End-to-end testing wrapper",
     long_description=long_description,

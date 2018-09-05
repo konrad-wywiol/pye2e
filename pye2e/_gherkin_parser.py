@@ -205,7 +205,7 @@ class StepsQueue:
             step.status = Status.PENDING
 
     def _skip_or_pending(self, item):
-        if self.wip_tag_flag and item.tag is Tags.WIP:
+        if self.wip_tag_flag and item.tag == Tags.WIP:
             item.status = Status.PENDING
             return
 
