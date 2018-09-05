@@ -279,9 +279,6 @@ class Webdriver:
                 element.clear()
 
             element.send_keys(text)
-            if not element.get_attribute('value') == text:
-                raise DriverException('element can\'t have value\n')
-
             if enter:
                 element.send_keys(Keys.ENTER)
 

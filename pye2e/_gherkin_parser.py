@@ -78,6 +78,10 @@ class StepsQueue:
             step.status = Status.FAILED
             step.error = e
 
+        except Exception as e:  #todo
+            step.status = Status.FAILED
+            step.error = e
+
         finally:
             self._print_gherkin(Type.STEP, step.text, status=step.status)
             if step.error is not None:
