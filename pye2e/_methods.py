@@ -1,8 +1,8 @@
 import os
 import sys
 from importlib import import_module
-from ._enums import Directories
 from ._custom_exceptions import MethodsException
+from . import _config
 
 
 class Methods:
@@ -31,13 +31,13 @@ class Methods:
     def _import_all_steps_files(self):
         steps_files = []
         try:
-            if not os.listdir(Directories.PAGES):
+            if not os.listdir(_config.project_config['directory_path']['steps']):
                 raise MethodsException('pages directory is empty')
 
         except FileNotFoundError:
             raise MethodsException('pages directory not found')
 
-        for step_file in os.listdir(Directories.PAGES):
+        for step_file in os.listdir(_config.project_config['directory_path']['steps']):
             if step_file == '__init__.py' or step_file[-3:] != '.py':
                 continue
             steps_files.append(import_module(step_file[:-3]))
@@ -50,8 +50,5 @@ class Methods:
                 self.methods_list.append(maybe_method)
 
     def _fix_sys_paths(self):
-        class_vars = [attr for attr in dir(Directories) if
-                      not callable(getattr(Directories, attr)) and not attr.startswith('__')]
-        for var in class_vars:
-            path = getattr(Directories, var)
-            sys.path.append(path) # todo sys.path.insert(1, path)
+        sys.path.append(_config.project_config['directory_path']['features'])  # todo sys.path.insert(1, path)
+        sys.path.append(_config.project_config['directory_path']['steps'])

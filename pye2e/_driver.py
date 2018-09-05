@@ -4,12 +4,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, WebDriverException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.keys import Keys
-from config import project_config
 from ._custom_exceptions import DriverException
 from ._enums import Browsers
+from . import _config
 
 
 def _method_decorator(method):
@@ -49,18 +49,21 @@ class Webdriver:
         self.driver = None
         self.parent_driver = None
 
-    def start_webdriver(self, url=project_config.main_url):
+    def start_webdriver(self, url=None):
         try:
-            self.driver, capabilities = self._get_browser_data(project_config.browser)
-            if project_config.selenium_host != 'localhost':
+            if url is None:
+                url = _config.project_config['main_url']
+
+            self.driver, capabilities = self._get_browser_data(_config.project_config['browser'])
+            if _config.project_config['selenium_host'] != 'localhost':
                 self.driver = webdriver.Remote(
-                    command_executor=project_config.selenium_host,
+                    command_executor=_config.project_config['selenium_host'],
                     desired_capabilities=capabilities)
 
             else:
                 self.driver = self.driver()
 
-            if project_config.fullscreen:
+            if _config.project_config['fullscreen']:
                 self.driver.maximize_window()
 
             self.open_url(url, add_base_url=False)
@@ -101,10 +104,10 @@ class Webdriver:
 
     def _wait_for_element_be_visible(self, xpath):
         try:
-            if project_config.custom_wait['active']:
+            if _config.project_config['custom_wait']['active']:
                 self._custom_wait()
 
-            return WebDriverWait(self.driver, project_config.timeout).until(
+            return WebDriverWait(self.driver, _config.project_config['timeout']).until(
                 ec.visibility_of_element_located((By.XPATH, xpath))
             )
 
@@ -113,10 +116,10 @@ class Webdriver:
 
     def _wait_for_element_be_present(self, xpath):
         try:
-            if project_config.custom_wait['active']:
+            if _config.project_config['custom_wait']['active']:
                 self._custom_wait()
 
-            return WebDriverWait(self.driver, project_config.timeout).until(
+            return WebDriverWait(self.driver, _config.project_config['timeout']).until(
                 ec.presence_of_element_located((By.XPATH, xpath))
             )
 
@@ -126,7 +129,7 @@ class Webdriver:
     def _wait_for_element_be_not_present(self, xpath):
         try:
             element = self.driver.find_element_by_xpath(xpath)
-            return WebDriverWait(self.driver, project_config.timeout).until(
+            return WebDriverWait(self.driver, _config.project_config['timeout']).until(
                 ec.staleness_of(element)
             )
 
@@ -136,8 +139,11 @@ class Webdriver:
         except TimeoutException:
             raise DriverException('Timeout, element is still present\n')
 
-    def _wait_for_element_be_not_visible(self, xpath, timeout=project_config.timeout):
+    def _wait_for_element_be_not_visible(self, xpath, timeout=None):
         try:
+            if timeout is None:
+                timeout = _config.project_config['timeout']
+
             self.driver.find_element_by_xpath(xpath)
             return WebDriverWait(self.driver, timeout).until(
                 ec.invisibility_of_element_located((By.XPATH, xpath))
@@ -151,9 +157,9 @@ class Webdriver:
 
     def _wait_for_element_be_clickable(self, xpath):
         try:
-            if project_config.custom_wait['active']:
+            if _config.project_config['custom_wait']['active']:
                 self._custom_wait()
-            return WebDriverWait(self.driver, project_config.timeout).until(
+            return WebDriverWait(self.driver, _config.project_config['timeout']).until(
                 ec.element_to_be_clickable((By.XPATH, xpath))
             )
 
@@ -162,8 +168,8 @@ class Webdriver:
 
     def _custom_wait(self):
         try:
-            timeout = project_config.custom_wait['custom_timeout']
-            for loading_XP in project_config.custom_wait['loading_object_XP']:
+            timeout = _config.project_config['custom_wait']['custom_timeout']
+            for loading_XP in _config.project_config['custom_wait']['loading_object_XP']:
                 self._wait_for_element_be_not_visible(loading_XP, timeout=timeout)
 
         except DriverException as e:
@@ -171,7 +177,7 @@ class Webdriver:
 
     def _url_compare(self, url_compare_method, url):
         try:
-            return WebDriverWait(self.driver, project_config.timeout).until(
+            return WebDriverWait(self.driver, _config.project_config['timeout']).until(
                 url_compare_method(url)
             )
         except TimeoutException:
@@ -287,10 +293,13 @@ class Webdriver:
     def open_url(self, url, add_base_url=True):
         try:
             if add_base_url:
-                url = project_config.main_url + url
+                url = _config.project_config['main_url'] + url
             self.driver.get(url)
             self.check_url(url, add_base_url=False)
             return True
+
+        except WebDriverException as e:
+            raise DriverException(str(e) + 'url: ' + url + ' is incorrect\n')
 
         except DriverException as e:
             raise DriverException(str(e) + 'failed to open website\n')
@@ -298,7 +307,7 @@ class Webdriver:
     def check_url(self, url, add_base_url=True, check_exactly=False):
         try:
             if add_base_url:
-                url = project_config.main_url + url
+                url = _config.project_config['main_url'] + url
             if check_exactly:
                 self._url_compare(ec.url_to_be, url)
             else:

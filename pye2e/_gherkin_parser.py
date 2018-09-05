@@ -5,7 +5,8 @@ from gherkin.pickles.compiler import compile
 from gherkin.errors import CompositeParserException
 from . import _in_step
 from ._custom_exceptions import ParserException, print_error, CustomException
-from ._enums import Directories, Type, Status, Colours, Tags
+from ._enums import Type, Status, Colours, Tags
+from . import _config
 
 
 class StepsQueue:
@@ -126,14 +127,14 @@ class StepsQueue:
 
     def _load_features_files(self):
         try:
-            if not os.listdir(Directories.FEATURES):
+            if not os.listdir(_config.project_config['directory_path']['features']):
                 raise ParserException('features directory is empty')
 
         except FileNotFoundError:
             raise ParserException('features directory not found')
 
-        for feature_file in os.listdir(Directories.FEATURES):
-            self._open_feature_file(Directories.FEATURES + feature_file)
+        for feature_file in os.listdir(_config.project_config['directory_path']['features']):
+            self._open_feature_file(_config.project_config['directory_path']['features'] + feature_file)
 
     def _open_feature_file(self, file_path):
         with open(file_path, 'r') as feature_file:
@@ -209,6 +210,7 @@ class StepsQueue:
             return
 
         item.status = Status.SKIPPED
+
 
 class Feature:
     def __init__(self, text):

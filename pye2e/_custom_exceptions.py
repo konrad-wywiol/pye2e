@@ -1,5 +1,5 @@
-from config import project_config
 from ._enums import Colours
+from . import _config
 
 
 class CustomException(Exception):
@@ -32,7 +32,7 @@ def print_error(error):
         if "'NoneType' object is not callable" in error.args:
             error.args = ('No function was found for this step',)
 
-        if project_config.debug:
+        if _config.project_config['debug']:
             raise error
 
     finally:
