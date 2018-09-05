@@ -72,7 +72,7 @@ class Webdriver:
             raise DriverException('Wrong browser name\n')
 
         except KeyboardInterrupt as e:
-            raise DriverException(str(e) + 'Interrupted by keyboard')
+            raise DriverException(str(e) + 'Interrupted by keyboard\n')
 
         except DriverException as e:
             raise DriverException(str(e) + 'Problem with initializing driver\n')
