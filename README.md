@@ -1,23 +1,28 @@
 # About
-
 Pye2e is "framework" for automated tests written in python and gherkin. Project is in an unfinished state! 
 
 ## Installing
+pip install --index-url https://test.pypi.org/simple/ pye2e
 
-git clone
-virtualenv -p python3 venv  
-source venv/bin/active  
-pip install -r requirements.txt 
+## Running
+create run.py in project/ and write simple script
+
+```
+from pye2e import start
+from project_config import config
+
+
+if __name__ == '__main__':
+    start(config)
+```
+
+## Example
+https://github.com/konrad-wywiol/pye2e_example
 
 ## File structure
-
-/venv/  
-/tests/  
-/tests/config/  
-/tests/data/  
-/tests/data/files/  
-/tests/features/  
-/tests/pages/  
+project/project_config.py  
+project/steps/  
+project/features/  
 
 ### project_config.py
 debug - show traceback and stop tests after first failure  
@@ -25,35 +30,14 @@ timout - the max time in which selenium webdriver will wait for elements
 main_url - base url which will be open on start  
 custom_wait - additional waiting for loading elements that covers page  
 
-### tests/data/
-Here you can store data, for example user_data.py that contains users names, passwords etc.
-
-### tests/data/files/
-From this directory you can upload files using upload_file(xpath, file_name) method
-
-### tests/feature/
+### feature/
 Here you create .feature files with gherkin scenarios. You can add tags to scenarios and features.
 @wip - run only these
 @disabled - skip 
 
-#### example
-Feature: Feature example text
-    Scenario: Scenario example text
-        Given user is on "homepage" page
+### tests/steps/
+This is the place where you create your .py files with steps. Write functions, decorate them with @step and add gherkin step text into decorator parameter. All defined functions must have a unique name. First argument is driver, you can check list of driver's methods below.
 
-### tests/pages/
-This is the place where you create your .py files. Write functions, decorate them with @step and add gherkin step into decorator parameter. All defined functions must have a unique name. First argument is driver, you can check list of driver methods below.
-
-#### example
-
-```
-from pye2e.step_decorator import step
-from tests.data import page_url_data
-
-@step('user is on "{page_name}" page') 
-def check_url(driver, page_name):
-    driver.check_url(page_url_data.url[page_name])
-```
 ## Webdriver methods:
 element_is_visible(xpath)  
 element_is_present(xpath)  
@@ -66,7 +50,7 @@ check_url(url, add_base_url=True, check_exactly=False)
 get_text(xpath)  
 open_new_window(url)  
 close_new_window  
-upload_file(xpath, file_name)  
+upload_file(xpath, file_path)  
 wait(seconds)  
 refresh_webdriver()  
 refresh_page()  
