@@ -3,18 +3,6 @@ from os.path import dirname as up
 from enum import Enum
 
 
-class Directories:
-    ROOT = up(up(up(os.path.abspath(__file__)))) + '/'
-    MAIN = ROOT + 'tests/'
-    CONFIG = MAIN + 'config/'
-    DATA = MAIN + 'data/'
-    FILES = DATA + 'files/'
-    FEATURES = MAIN + 'features/'
-    PAGES = MAIN + 'pages/'
-    PYE2E = MAIN + 'pye2e/'
-    PRIVATE = PYE2E + 'private/'
-
-
 class Type(Enum):
     FEATURE = 1
     SCENARIO = 2

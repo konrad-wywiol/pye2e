@@ -32,10 +32,10 @@ class Methods:
         steps_files = []
         try:
             if not os.listdir(_config.project_config['directory_path']['steps']):
-                raise MethodsException('pages directory is empty')
+                raise MethodsException('steps directory is empty')
 
         except FileNotFoundError:
-            raise MethodsException('pages directory not found')
+            raise MethodsException('steps directory not found')
 
         for step_file in os.listdir(_config.project_config['directory_path']['steps']):
             if step_file == '__init__.py' or step_file[-3:] != '.py':
