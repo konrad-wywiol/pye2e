@@ -9,18 +9,18 @@ create run.py in project/ and write simple script
 
 ```
 from pye2e import start
-from config_directory.config_file import config_dict
+from project_config import config
 
 
 if __name__ == '__main__':
-    start(config_dict)
+    start(config)
 ```
 
 ## Example
 https://github.com/konrad-wywiol/pye2e_example
 
 ## File structure
-project/config/config.py  
+project/project_config.py  
 project/steps/  
 project/features/  
 
