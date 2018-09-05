@@ -20,9 +20,9 @@ if __name__ == '__main__':
 https://github.com/konrad-wywiol/pye2e_example
 
 ## File structure
-project/config/config.py
-project/steps/
-project/features/
+project/config/config.py  
+project/steps/  
+project/features/  
 
 ### project_config.py
 debug - show traceback and stop tests after first failure  
