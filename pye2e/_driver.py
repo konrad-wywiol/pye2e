@@ -8,7 +8,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.keys import Keys
 from ._custom_exceptions import DriverException
 from ._enums import Browsers
-from . import _config
+from . import _config_tmp
 
 
 def _method_decorator(method):
@@ -51,18 +51,18 @@ class Webdriver:
     def start_webdriver(self, url=None):
         try:
             if url is None:
-                url = _config.project_config['main_url']
+                url = _config_tmp.config['main_url']
 
-            self.driver, capabilities = self._get_browser_data(_config.project_config['browser'])
-            if _config.project_config['selenium_host'] != 'localhost':
+            self.driver, capabilities = self._get_browser_data(_config_tmp.config['browser'])
+            if _config_tmp.config['selenium_host'] != 'localhost':
                 self.driver = webdriver.Remote(
-                    command_executor=_config.project_config['selenium_host'],
+                    command_executor=_config_tmp.config['selenium_host'],
                     desired_capabilities=capabilities)
 
             else:
                 self.driver = self.driver()
 
-            if _config.project_config['fullscreen']:
+            if _config_tmp.config['fullscreen']:
                 self.driver.maximize_window()
 
             self.open_url(url, add_base_url=False)
@@ -103,10 +103,10 @@ class Webdriver:
 
     def _wait_for_element_be_visible(self, xpath):
         try:
-            if _config.project_config['custom_wait']['active']:
+            if _config_tmp.config['custom_wait']['active']:
                 self._custom_wait()
 
-            return WebDriverWait(self.driver, _config.project_config['timeout']).until(
+            return WebDriverWait(self.driver, _config_tmp.config['timeout']).until(
                 ec.visibility_of_element_located((By.XPATH, xpath))
             )
 
@@ -115,10 +115,10 @@ class Webdriver:
 
     def _wait_for_element_be_present(self, xpath):
         try:
-            if _config.project_config['custom_wait']['active']:
+            if _config_tmp.config['custom_wait']['active']:
                 self._custom_wait()
 
-            return WebDriverWait(self.driver, _config.project_config['timeout']).until(
+            return WebDriverWait(self.driver, _config_tmp.config['timeout']).until(
                 ec.presence_of_element_located((By.XPATH, xpath))
             )
 
@@ -128,7 +128,7 @@ class Webdriver:
     def _wait_for_element_be_not_present(self, xpath):
         try:
             element = self.driver.find_element_by_xpath(xpath)
-            return WebDriverWait(self.driver, _config.project_config['timeout']).until(
+            return WebDriverWait(self.driver, _config_tmp.config['timeout']).until(
                 ec.staleness_of(element)
             )
 
@@ -141,7 +141,7 @@ class Webdriver:
     def _wait_for_element_be_not_visible(self, xpath, timeout=None):
         try:
             if timeout is None:
-                timeout = _config.project_config['timeout']
+                timeout = _config_tmp.config['timeout']
 
             self.driver.find_element_by_xpath(xpath)
             return WebDriverWait(self.driver, timeout).until(
@@ -156,9 +156,9 @@ class Webdriver:
 
     def _wait_for_element_be_clickable(self, xpath):
         try:
-            if _config.project_config['custom_wait']['active']:
+            if _config_tmp.config['custom_wait']['active']:
                 self._custom_wait()
-            return WebDriverWait(self.driver, _config.project_config['timeout']).until(
+            return WebDriverWait(self.driver, _config_tmp.config['timeout']).until(
                 ec.element_to_be_clickable((By.XPATH, xpath))
             )
 
@@ -167,8 +167,8 @@ class Webdriver:
 
     def _custom_wait(self):
         try:
-            timeout = _config.project_config['custom_wait']['custom_timeout']
-            for loading_XP in _config.project_config['custom_wait']['loading_object_XP']:
+            timeout = _config_tmp.config['custom_wait']['custom_timeout']
+            for loading_XP in _config_tmp.config['custom_wait']['loading_object_XP']:
                 self._wait_for_element_be_not_visible(loading_XP, timeout=timeout)
 
         except DriverException as e:
@@ -176,7 +176,7 @@ class Webdriver:
 
     def _url_compare(self, url_compare_method, url):
         try:
-            return WebDriverWait(self.driver, _config.project_config['timeout']).until(
+            return WebDriverWait(self.driver, _config_tmp.config['timeout']).until(
                 url_compare_method(url)
             )
         except TimeoutException:
@@ -289,7 +289,7 @@ class Webdriver:
     def open_url(self, url, add_base_url=True):
         try:
             if add_base_url:
-                url = _config.project_config['main_url'] + url
+                url = _config_tmp.config['main_url'] + url
             self.driver.get(url)
             self.check_url(url, add_base_url=False)
             return True
@@ -303,7 +303,7 @@ class Webdriver:
     def check_url(self, url, add_base_url=True, check_exactly=False):
         try:
             if add_base_url:
-                url = _config.project_config['main_url'] + url
+                url = _config_tmp.config['main_url'] + url
             if check_exactly:
                 self._url_compare(ec.url_to_be, url)
             else:

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pye2e",
-    version="0.0.5",
+    version="0.0.17",
     author="Konrad",
     description="End-to-end testing wrapper",
     long_description=long_description,
@@ -17,4 +17,8 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    install_requires=[
+        'selenium>=3.14.0',
+        'gherkin-official>=4.1.3'
+    ]
 )

@@ -6,7 +6,7 @@ from gherkin.errors import CompositeParserException
 from . import _in_step
 from ._custom_exceptions import ParserException, print_error, CustomException
 from ._enums import Type, Status, Colours, Tags
-from . import _config
+from . import _config_tmp
 
 
 class StepsQueue:
@@ -109,10 +109,10 @@ class StepsQueue:
 
         elif type == Type.STEP:
             if status == Status.SUCCESS:
-                self._print_and_log(tab + tab + Colours.GREEN + text + Colours.DEFAULT)
+                self._print_and_log(tab + tab + Colours.GREEN + text + Colours.DEFAULT, status)
 
             elif status == Status.FAILED:
-                self._print_and_log(tab + tab + Colours.RED + text + Colours.DEFAULT)
+                self._print_and_log(tab + tab + Colours.RED + text + Colours.DEFAULT, status)
 
     def _print_summary(self, finish_time):
         self._print_and_log()
@@ -125,20 +125,22 @@ class StepsQueue:
         self._print_and_log()
         self._print_and_log(Colours.GREEN + 'Finished in: ' + finish_time + 'sec' + Colours.DEFAULT)
 
-    def _print_and_log(self, text=''):
+    def _print_and_log(self, text='', status=''):
+        if status != '':
+            status = ' (' + status + ')'
         print(text)
-        self.log = '\n'.join((self.log, text))
+        self.log = '\n'.join((self.log, text + status))
 
     def _load_features_files(self):
         try:
-            if not os.listdir(_config.project_config['directory_path']['features']):
+            if not os.listdir(_config_tmp.config['directory_path']['features']):
                 raise ParserException('features directory is empty')
 
         except FileNotFoundError:
             raise ParserException('features directory not found')
 
-        for feature_file in os.listdir(_config.project_config['directory_path']['features']):
-            self._open_feature_file(_config.project_config['directory_path']['features'] + feature_file)
+        for feature_file in os.listdir(_config_tmp.config['directory_path']['features']):
+            self._open_feature_file(_config_tmp.config['directory_path']['features'] + feature_file)
 
     def _open_feature_file(self, file_path):
         with open(file_path, 'r') as feature_file:

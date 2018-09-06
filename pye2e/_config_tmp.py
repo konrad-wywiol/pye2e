@@ -1,4 +1,4 @@
-project_config = {
+config = {
     'directory_path': {
         'features': '',
         'steps': ''
@@ -13,21 +13,25 @@ project_config = {
         'active': False,
         'loading_object_XP': [],
         'custom_timeout': 0
+    },
+    'report': {
+        'active': False,
+        'path': ''
     }
 }
 
 
-def change_config(config):
-    global project_config
-    config = _fix_paths(config)
-    project_config = config
+def change_config(cfg):
+    global config
+    cfg = _fix_paths(cfg)
+    config = cfg
 
 
-def _fix_paths(config):
-    for key, value in config['directory_path'].items():
-        config['directory_path'][key] = _add_slash_at_the_end(value)
+def _fix_paths(cfg):
+    for key, value in cfg['directory_path'].items():
+        cfg['directory_path'][key] = _add_slash_at_the_end(value)
 
-    return config
+    return cfg
 
 
 def _add_slash_at_the_end(string):

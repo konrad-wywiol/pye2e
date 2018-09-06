@@ -2,7 +2,7 @@ import os
 import sys
 from importlib import import_module
 from ._custom_exceptions import MethodsException
-from . import _config
+from . import _config_tmp
 
 
 class Methods:
@@ -31,13 +31,13 @@ class Methods:
     def _import_all_steps_files(self):
         steps_files = []
         try:
-            if not os.listdir(_config.project_config['directory_path']['steps']):
+            if not os.listdir(_config_tmp.config['directory_path']['steps']):
                 raise MethodsException('steps directory is empty')
 
         except FileNotFoundError:
             raise MethodsException('steps directory not found')
 
-        for step_file in os.listdir(_config.project_config['directory_path']['steps']):
+        for step_file in os.listdir(_config_tmp.config['directory_path']['steps']):
             if step_file == '__init__.py' or step_file[-3:] != '.py':
                 continue
             steps_files.append(import_module(step_file[:-3]))
@@ -50,5 +50,5 @@ class Methods:
                 self.methods_list.append(maybe_method)
 
     def _fix_sys_paths(self):
-        sys.path.append(_config.project_config['directory_path']['features'])  # todo sys.path.insert(1, path)
-        sys.path.append(_config.project_config['directory_path']['steps'])
+        sys.path.append(_config_tmp.config['directory_path']['features'])  # todo sys.path.insert(1, path)
+        sys.path.append(_config_tmp.config['directory_path']['steps'])
