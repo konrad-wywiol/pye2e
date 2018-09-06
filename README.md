@@ -38,7 +38,7 @@ Here you create .feature files with gherkin scenarios. You can add tags to scena
 @wip - run only these  
 @disabled - skip  
 
-### tests/steps/
+### steps/
 This is the place where you create your .py files with steps. Write functions, decorate them with @step and add gherkin step text into decorator parameter. All defined functions must have a unique name. First argument is driver, you can check list of driver's methods below.
 
 ## Webdriver methods:
