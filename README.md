@@ -2,7 +2,7 @@
 Pye2e is "framework" for automated tests written in python and gherkin. Project is in an unfinished state! 
 
 ## Installing
-pip install --index-url https://test.pypi.org/simple/ pye2e
+pip install --extra-index-url https://test.pypi.org/simple/ pye2e
 
 ## Requirements
 python 3   
