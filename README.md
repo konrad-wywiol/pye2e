@@ -8,7 +8,7 @@ pip install --extra-index-url https://test.pypi.org/simple/ pye2e
 python 3   
 
 ## Running
-create run.py in project/ and write simple script
+create run.py in project/ and write a simple script
 
 ```
 from pye2e import start
