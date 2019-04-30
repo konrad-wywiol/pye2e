@@ -29,7 +29,7 @@ project/features/
 
 ### project_config.py
 debug - show traceback and stop tests after first failure  
-timout - the max time in which selenium webdriver will wait for elements  
+timeout - the max time in which selenium webdriver will wait for elements  
 main_url - base url which will be open on start  
 custom_wait - additional waiting for loading elements that covers page  
 
