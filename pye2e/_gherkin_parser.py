@@ -6,7 +6,7 @@ from gherkin.errors import CompositeParserException
 from . import _in_step
 from ._custom_exceptions import ParserException, print_error, CustomException
 from ._enums import Type, Status, Colours, Tags
-from . import _config_tmp
+from ._project_config import config
 
 
 class StepsQueue:
@@ -133,14 +133,14 @@ class StepsQueue:
 
     def _load_features_files(self):
         try:
-            if not os.listdir(_config_tmp.config['directory_path']['features']):
+            if not os.listdir(config['directory_path']['paths']['features']):
                 raise ParserException('features directory is empty')
 
         except FileNotFoundError:
             raise ParserException('features directory not found')
 
-        for feature_file in os.listdir(_config_tmp.config['directory_path']['features']):
-            self._open_feature_file(_config_tmp.config['directory_path']['features'] + feature_file)
+        for feature_file in os.listdir(config['directory_path']['paths']['features']):
+            self._open_feature_file(config['directory_path']['paths']['features'] + feature_file)
 
     def _open_feature_file(self, file_path):
         with open(file_path, 'r') as feature_file:
