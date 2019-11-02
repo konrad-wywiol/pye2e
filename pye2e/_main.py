@@ -1,4 +1,4 @@
-from . import _config_tmp
+from ._project_config import config
 from ._driver import Webdriver
 from ._methods import Methods
 from ._gherkin_parser import StepsQueue
@@ -6,9 +6,8 @@ from ._custom_exceptions import print_error, CustomException, DriverException
 from ._report import save_as_text
 
 
-def start(config):
+def start():
     try:
-        _config_tmp.change_config(config)
         driver = Webdriver()
         driver.start_webdriver()
         methods = Methods()
@@ -22,7 +21,7 @@ def start(config):
 
     finally:
         try:
-            if _config_tmp.config['report']['active']:
+            if config['report']['active']:
                 save_as_text(steps_queue.log)
             driver.resolve_webdriver()
 

@@ -24,13 +24,13 @@ class Colours:
 
 
 class Browsers:
-    CHROME = 'chrome'
-    EDGE = 'edge'
-    FIREFOX = 'firefox'
-    INTERNETEXPLORER = 'internetexplorer'
-    OPERA = 'opera'
-    PHANTOMJS = 'phantomjs'
-    SAFARI = 'safari'
+    CHROME = 'Chrome'
+    EDGE = 'Edge'
+    FIREFOX = 'Firefox'
+    INTERNETEXPLORER = 'IE'
+    OPERA = 'Opera'
+    PHANTOMJS = 'PhantomJS'
+    SAFARI = 'Safari'
 
 
 class Tags:
